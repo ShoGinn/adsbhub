@@ -9,6 +9,7 @@ COPY qemu/qemu-$ARCH-static* /usr/bin/
 RUN apk add --no-cache socat iputils
 
 COPY adsbhub-client.sh /usr/local/bin/adsbhub-client
+
 ENTRYPOINT ["adsbhub-client"]
 
 # Metadata
