@@ -1,11 +1,6 @@
 ARG BASE=alpine
 FROM $BASE
 
-ARG arch=none
-ENV ARCH=$arch
-
-COPY qemu/qemu-$ARCH-static* /usr/bin/
-
 RUN apk add --no-cache socat iputils
 
 COPY adsbhub-client.sh /usr/local/bin/adsbhub-client

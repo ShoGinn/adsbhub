@@ -31,6 +31,7 @@ buildctl build --frontend dockerfile.v0 \
       --output type=image,name=docker.io/$REPO:test-build,push=true \
       --opt platform=$platforms \
       --opt "build-arg:BASE=$BASE" \
+      --opt "build-arg:VCS_REF=$(git rev-parse --short HEAD)" \
       --opt filename=./Dockerfile.cross
 
 # Push image for every arch with arch prefix in tag
@@ -43,6 +44,7 @@ do
       --output type=image,name=docker.io/$REPO:test-build-$arch,push=true \
       --frontend-opt platform=linux/$arch \
       --opt "build-arg:BASE=$BASE" \
+      --opt "build-arg:VCS_REF=$(git rev-parse --short HEAD)" \
       --frontend-opt filename=./Dockerfile.cross &
 done
 
