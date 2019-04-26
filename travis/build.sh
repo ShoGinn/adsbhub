@@ -51,5 +51,5 @@ done
 wait
 
 docker pull $REPO:test-build-arm
-docker tag $REPO:test-build-arm zeerorg/cron-connector:test-build-armhf
+docker tag $REPO:test-build-arm $REPO:test-build-armhf
 docker push $REPO:test-build-armhf
