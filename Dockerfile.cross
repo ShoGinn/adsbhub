@@ -1,6 +1,6 @@
 ARG BASE=alpine
 
-FROM --platform=$BUILDPLATFORM $BASE
+FROM $BASE
 
 RUN apk add --no-cache socat iputils
 
