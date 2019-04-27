@@ -2,13 +2,14 @@
 
 set -e
 
+: ${BUILD:="$1"} # Latest or test-build
+
 #good defaults
-: ${CONFIG_FILE:="./build.config"}
+: ${CONFIG_FILE:="./travis/build.config"}
 test -e ${CONFIG_FILE} && . ${CONFIG_FILE}
 
 
 architectures="arm arm64 amd64"
-images=""
 platforms=""
 
 for arch in $architectures
@@ -28,7 +29,7 @@ docker login --username $DOCKER_USER --password $DOCKER_PASS
 buildctl build --frontend dockerfile.v0 \
       --local dockerfile=. \
       --local context=. \
-      --output type=image,name=docker.io/$REPO:test-build,push=true \
+      --output type=image,name=docker.io/$REPO:$BUILD,push=true \
       --opt platform=$platforms \
       --opt "build-arg:BASE=$BASE" \
       --opt "build-arg:VCS_REF=$(git rev-parse --short HEAD)" \
@@ -41,15 +42,15 @@ do
   buildctl build --frontend dockerfile.v0 \
       --local dockerfile=. \
       --local context=. \
-      --output type=image,name=docker.io/$REPO:test-build-$arch,push=true \
-      --frontend-opt platform=linux/$arch \
+      --output type=image,name=docker.io/$REPO:$BUILD-$arch,push=true \
+      --opt platform=linux/$arch \
       --opt "build-arg:BASE=$BASE" \
       --opt "build-arg:VCS_REF=$(git rev-parse --short HEAD)" \
-      --frontend-opt filename=./Dockerfile.cross &
+      --opt filename=./Dockerfile.cross &
 done
 
 wait
 
-docker pull $REPO:test-build-arm
-docker tag $REPO:test-build-arm $REPO:test-build-armhf
-docker push $REPO:test-build-armhf
+docker pull $REPO:$BUILD-arm
+docker tag $REPO:$BUILD-arm $REPO:$BUILD-armhf
+docker push $REPO:$BUILD-armhf

@@ -24,11 +24,11 @@ before_install:
   - export BUILDKIT_HOST=tcp://0.0.0.0:1234
 
 script:
-  - ./travis/build.sh
+  - bash ./travis/build.sh test-build
 
 deploy:
   provider: script
-  script: bash ./travis/deploy.sh
+  script: bash ./travis/build.sh latest
   skip_cleanup: true
   on:
     tags: true
