@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set -e
+set -ex
 
 : ${BUILD:="$1"} # Latest or test-build
 
