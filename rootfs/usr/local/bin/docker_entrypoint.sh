@@ -7,8 +7,8 @@ set -o pipefail         # Use last non-zero exit code in a pipeline
 #set -o xtrace          # Trace the execution of the script (debug)
 
 
-DUMP1090_SERVER='dump1090'
-DUMP1090_PORT='30002'
+DUMP1090_SERVER=${DUMP1090_SERVER:=dump1090}
+DUMP1090_PORT=${DUMP1090_PORT:=30002}
 
 
 echo "Waiting for dump1090 to start up"
