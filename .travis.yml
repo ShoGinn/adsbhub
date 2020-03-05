@@ -24,7 +24,7 @@ install:
   - curl -ksSl -o ./travis/build.sh "https://raw.githubusercontent.com/ShoGinn/docker-builds/master/travis/build.sh"
   - curl -ksSl -o ./travis/deploy.sh "https://raw.githubusercontent.com/ShoGinn/docker-builds/master/travis/deploy.sh"
   - curl -ksSl -o ./travis/success.sh "https://raw.githubusercontent.com/ShoGinn/docker-builds/master/travis/success.sh"
-  - sudo bash travis/enable-experimental-docker.sh
+  - . ./travis/enable-experimental-docker.sh
   - sudo docker version
   - . ./travis-ci/env.sh
   - sudo env
@@ -35,17 +35,17 @@ before_script:
 
 
 script:
-  - sudo bash travis/build.sh
+  - . ./travis/build.sh
 
 deploy:
   provider: script
-  script: sudo bash travis/deploy.sh
+  script: . ./travis/deploy.sh
   skip_cleanup: true
   on:
     branch: master
 
 after_deploy:
-  - sudo bash travis/success.sh
+  - . ./travis/success.sh
 
 notifications:
   email:
@@ -56,10 +56,7 @@ notifications:
 env:
   global:
     - BUILD_DATE="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
-    - BUILD_NUMBER="${TRAVIS_BUILD_NUMBER}"
-    - DOCKER_DESCRIPTION="${DESCRIPTION}"
     - DOCKER_MAINTAINER="shoginn"
-    - DOCKER_NAME="${REPO_NAME}"
     - DOCKER_URL="https://shoginn.github.io"
     - SCHEMA_VERSION="1.0"
     - VCS_REF="$(git rev-parse --short HEAD)"
