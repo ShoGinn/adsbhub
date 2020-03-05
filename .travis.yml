@@ -35,17 +35,17 @@ before_script:
 
 
 script:
-  - . ./travis/build.sh
+  - sudo . ./travis/build.sh
 
 deploy:
   provider: script
-  script: . ./travis/deploy.sh
+  script: sudo . ./travis/deploy.sh
   skip_cleanup: true
   on:
     branch: master
 
 after_deploy:
-  - . ./travis/success.sh
+  - sudo . ./travis/success.sh
 
 notifications:
   email:
