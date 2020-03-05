@@ -26,7 +26,7 @@ install:
   - curl -ksSl -o ./travis/success.sh "https://raw.githubusercontent.com/ShoGinn/docker-builds/master/travis/success.sh"
   - sudo bash travis/enable-experimental-docker.sh
   - sudo docker version
-  - sudo bash ./travis-ci/env.sh
+  - . ./travis-ci/env.sh
   - sudo env
 
 before_script:
