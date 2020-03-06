@@ -33,7 +33,7 @@ Env variables can be passed to the container containing the dump1090 optional it
 docker run -d \
 --restart unless-stopped \
 --name='adsbhub' \
-shoginn/adsbhub:latest-amd64
+shoginn/adsbhub:latest
 
 ```
 

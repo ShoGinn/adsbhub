@@ -1,9 +1,9 @@
-#!/bin/sh
+#!/usr/bin/env sh
 
 set -o errexit # Exit on most errors (see the manual)
 #set -o errtrace         # Make sure any error trap is inherited
-set -o nounset  # Disallow expansion of unset variables
-set -o pipefail # Use last non-zero exit code in a pipeline
+set -o nounset # Disallow expansion of unset variables
+#set -o pipefail # Use last non-zero exit code in a pipeline
 #set -o xtrace          # Trace the execution of the script (debug)
 
 DUMP1090_SERVER=${DUMP1090_SERVER:=dump1090}
@@ -25,7 +25,7 @@ while true; do
 
   echo "Replay ended"
 
-  if [[ "${SOCAT_STATUS}" -eq 0 ]]; then
+  if [ "${SOCAT_STATUS}" -eq 0 ]; then
     echo "Replay ended without failure"
     break
   else
