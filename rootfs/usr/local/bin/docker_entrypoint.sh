@@ -8,6 +8,8 @@ set -o nounset # Disallow expansion of unset variables
 
 DUMP1090_SERVER=${DUMP1090_SERVER:=dump1090}
 DUMP1090_PORT=${DUMP1090_PORT:=30002}
+SOCAT_SERVER=${SOCAT_SERVER:=data.adsbhub.org}
+SOCAT_PORT=${SOCAT_PORT:=5001}
 
 echo "Waiting for dump1090 to start up"
 sleep 5s
@@ -16,10 +18,10 @@ echo "Ping test to dump1090"
 ping -c 3 "${DUMP1090_SERVER}"
 
 while true; do
-  echo "Starting replay from TCP:${DUMP1090_SERVER}:${DUMP1090_PORT} to TCP:data.adsbhub.org:5001"
+  echo "Starting replay from TCP:${DUMP1090_SERVER}:${DUMP1090_PORT} to TCP:${SOCAT_SERVER}:${SOCAT_PORT}"
 
   set +o errexit
-  socat -d -d -u "TCP:${DUMP1090_SERVER}:${DUMP1090_PORT}" 'TCP:data.adsbhub.org:5001'
+  socat -d -d -u 'TCP:'${DUMP1090_SERVER}:${DUMP1090_PORT} 'TCP:'${SOCAT_SERVER}:${SOCAT_PORT}
   SOCAT_STATUS=${?}
   set -o errexit
 
