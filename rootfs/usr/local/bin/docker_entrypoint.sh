@@ -17,22 +17,6 @@ sleep 5s
 echo "Ping test to dump1090"
 ping -c 3 "${DUMP1090_SERVER}"
 
-while true; do
-  echo "Starting replay from TCP:${DUMP1090_SERVER}:${DUMP1090_PORT} to TCP:${SOCAT_SERVER}:${SOCAT_PORT}"
-
-  set +o errexit
-  socat -d -d -u 'TCP:'${DUMP1090_SERVER}:${DUMP1090_PORT} 'TCP:'${SOCAT_SERVER}:${SOCAT_PORT}
-  SOCAT_STATUS=${?}
-  set -o errexit
-
-  echo "Replay ended"
-
-  if [ "${SOCAT_STATUS}" -eq 0 ]; then
-    echo "Replay ended without failure"
-    break
-  else
-    echo "Replay ended with failure (${SOCAT_STATUS}) - restarting"
-  fi
-done
-
-exit ${SOCAT_STATUS}
+echo "Starting replay from TCP:${DUMP1090_SERVER}:${DUMP1090_PORT} to TCP:${SOCAT_SERVER}:${SOCAT_PORT}"
+exec /usr/bin/socat -d -d -u 'TCP:'${DUMP1090_SERVER}:${DUMP1090_PORT} 'TCP:'${SOCAT_SERVER}:${SOCAT_PORT} \
+  "${@}"
